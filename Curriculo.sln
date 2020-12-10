@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FFA513FE-7B09-4FE9-8E7D-E4145952FDB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Curriculo.API", "src\Curriculo.API\Curriculo.API.csproj", "{52906E99-4EB8-46B9-BE2B-970A8CA12280}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Curriculo.API", "Curriculo.API\Curriculo.API.csproj", "{52906E99-4EB8-46B9-BE2B-970A8CA12280}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Curriculo.Business", "src\Curriculo.Business\Curriculo.Business.csproj", "{C8FE473A-CA20-4A6F-8837-23B8C80ACABD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Curriculo.Business", "Curriculo.Business\Curriculo.Business.csproj", "{C8FE473A-CA20-4A6F-8837-23B8C80ACABD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Curriculo.Data", "Curriculo.Data\Curriculo.Data.csproj", "{EEAFE4A1-1E2F-4004-AE1F-36CED346A778}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Curriculo.Data", "src\Curriculo.Data\Curriculo.Data.csproj", "{EEAFE4A1-1E2F-4004-AE1F-36CED346A778}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

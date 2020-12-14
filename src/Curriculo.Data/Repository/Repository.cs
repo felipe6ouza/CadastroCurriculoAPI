@@ -16,6 +16,7 @@ namespace Curriculo.Data.Repository
         public Repository(MeuDbContext db)
         {
             Db = db;
+            DbSet = db.Set<TEntity>();
         }
 
         public async Task Adicionar(TEntity entity)
@@ -26,8 +27,7 @@ namespace Curriculo.Data.Repository
 
         public async Task Atualizar(TEntity entity)
         {
-            Db.Set<TEntity>().Update(entity);
-
+            DbSet.Update(entity);
             await SaveChanges();
         }
         public virtual async Task Remover(TEntity entity)
@@ -36,14 +36,15 @@ namespace Curriculo.Data.Repository
             await SaveChanges();
         }
 
-        public async Task<List<TEntity>> ObterTodos()
+        public virtual async Task<List<TEntity>> ObterTodos()
         {
             return await DbSet.ToListAsync();
         }
 
         public async Task<TEntity> ObterPorId(Guid id)
         {
-           return await DbSet.FindAsync(id);
+            return await DbSet.FindAsync(id);
+                 
         }
 
         public void Dispose()

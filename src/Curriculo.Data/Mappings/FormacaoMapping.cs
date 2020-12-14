@@ -12,7 +12,7 @@ namespace Curriculo.Data.Mappings
             builder.HasKey(p => p.Id);
             builder.Property(f => f.Curso).HasColumnType("VARCHAR(60)");
             builder.Property(f => f.Status).HasColumnType("VARCHAR(50)");
-            builder.Property(f => f.DataConclusao).HasColumnType("Date");
+            builder.Property(f => f.DataConclusao).HasColumnType("Date").IsRequired(false);
         }
     }
 }

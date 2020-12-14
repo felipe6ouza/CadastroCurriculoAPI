@@ -12,6 +12,15 @@ namespace Curriculo.Data.Repository
     {
         public PessoaRepository(MeuDbContext dbContext): base(dbContext){}
 
+        public override async Task<List<Pessoa>> ObterTodos()
+        {
+            return await Db.Pessoa
+                 .AsNoTracking()
+                 .Include(f => f.Formacao)
+                 .Include(f => f.Experiencia)
+                 .Include(f => f.ExperienciaTrabalho)
+                 .ToListAsync();
+        }
         public async Task<IEnumerable<Experiencia>> ObterExperienciaPessoa(Guid id)
         {
             return (IEnumerable<Experiencia>)await Db.Pessoa

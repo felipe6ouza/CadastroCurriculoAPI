@@ -10,7 +10,7 @@ namespace Curriculo.Business.Models
 
         public string Curso { get; set; }
         public string Status { get; set; }
-        public DateTime DataConclusao { get; set; }
+        public DateTime? DataConclusao { get; set; }
 
 
         /*EF Relation */

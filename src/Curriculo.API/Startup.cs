@@ -1,3 +1,4 @@
+using AutoMapper;
 using Curriculo.Business.Interfaces;
 using Curriculo.Data.Context;
 using Curriculo.Data.Repository;
@@ -24,14 +25,15 @@ namespace Curriculo.API
             services.AddControllers();
 
             services.AddDbContext<MeuDbContext>(options =>
-                  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
+                  b => b.MigrationsAssembly("Curriculo.API")));
 
             services.AddScoped<MeuDbContext>();
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddScoped<IPessoaRepository, PessoaRepository>();
-            services.AddScoped<IFormacaoRepository, FormacaoRepository>();
-            services.AddScoped<IExperienciaRepository, ExperienciaRepository>();
-            services.AddScoped<IExperienciaTrabalhoRepository, ExperienciaTrabalhoRepository>();
+           
 
         }
 

@@ -3,7 +3,6 @@ using Curriculo.API.ViewModels;
 using Curriculo.Business.Interfaces;
 using Curriculo.Business.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -51,8 +50,9 @@ namespace Curriculo.API.Controllers
 
             var pessoa = _mapper.Map<Pessoa>(pessoaViewModel);
             await _pessoaRepository.Adicionar(pessoa);
-            pessoaViewModel.Id = pessoa.Id;
-            return CreatedAtAction ("POST", pessoaViewModel);
+            var response = _mapper.Map <PessoaViewModel> (await _pessoaRepository.ObterDadosCompletosPessoa(pessoa.Id));
+
+            return CreatedAtAction ("POST", response);
         }
 
         [HttpPut("{id:guid}")]
@@ -64,61 +64,21 @@ namespace Curriculo.API.Controllers
 
             var update = _mapper.Map<Pessoa>(pessoaViewModel);
 
-            
-            foreach(var formacao in update.Formacao)
-            {
-                formacao.PessoaId = pessoaViewModel.Id;
-            }
-
-            foreach (var experiencia in update.Experiencia)
-            {
-                experiencia.PessoaId = pessoaViewModel.Id;
-            }
-
-            foreach (var experienciaTrabalho in update.ExperienciaTrabalho)
-            {
-                experienciaTrabalho.PessoaId = pessoaViewModel.Id;
-            }
-
-            try
-            {
-                await _pessoaRepository.Atualizar(update);
-            }
-
-            catch (DbUpdateConcurrencyException ex)
-            {
-                foreach (var entry in ex.Entries)
-                {
-                    if (entry.Entity is Pessoa)
-                    {
-                        var proposedValues = entry.CurrentValues;
-                        var databaseValues = await entry.GetDatabaseValuesAsync();
-
-                        foreach (var property in proposedValues.Properties)
-                        {
-                            var proposedValue = proposedValues[property];
-                            var databaseValue = databaseValues[property];
-
-                            // TODO: decide which value should be written to database
-                            // proposedValues[property] = <value to be saved>;
-                        }
-
-                        // Refresh original values to bypass next concurrency check
-                        entry.OriginalValues.SetValues(databaseValues);
-                    }
-                    else
-                    {
-                        throw new NotSupportedException(
-                            "Don't know how to handle concurrency conflicts for "
-                            + entry.Metadata.Name);
-                    }
-                }
-            }
-
-
-                return NoContent();
+            await _pessoaRepository.Atualizar(update);
+            return NoContent();
         }
 
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            var pessoa = await _pessoaRepository.ObterPorId(id);
 
+            if (pessoa == null)
+                return NotFound();
+
+            await _pessoaRepository.Remover(id);
+            
+            return Ok();
+        }
     }
 }

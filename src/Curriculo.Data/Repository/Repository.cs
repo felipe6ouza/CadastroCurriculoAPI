@@ -30,9 +30,9 @@ namespace Curriculo.Data.Repository
             DbSet.Update(entity);
             await SaveChanges();
         }
-        public virtual async Task Remover(TEntity entity)
+        public virtual async Task Remover(Guid id)
         {
-            Db.Set<TEntity>().Remove(entity);
+            Db.Set<TEntity>().Remove(await DbSet.FindAsync(id));
             await SaveChanges();
         }
 

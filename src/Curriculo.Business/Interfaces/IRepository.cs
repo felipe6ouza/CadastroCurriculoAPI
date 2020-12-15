@@ -12,7 +12,7 @@ namespace Curriculo.Business.Interfaces
         Task<TEntity> ObterPorId(Guid id);
         Task<List<TEntity>> ObterTodos();
         Task Atualizar(TEntity entity);
-        Task Remover(TEntity entity);
+        Task Remover(Guid id);
         Task<int> SaveChanges();
 
    }

@@ -24,11 +24,14 @@ namespace Curriculo.API
         {
             services.AddControllers();
 
-            services.AddDbContext<MeuDbContext>(options =>
+            /*services.AddDbContext<MeuDbContext>(options =>
                   options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), 
-                  b => b.MigrationsAssembly("Curriculo.API")));
+                  b => b.MigrationsAssembly("Curriculo.API"))); */
+
+
 
             services.AddScoped<MeuDbContext>();
+            services.AddDbContext<MeuDbContext>(opt => opt.UseInMemoryDatabase("test"));
 
             services.AddAutoMapper(typeof(Startup));
 

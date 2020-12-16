@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using System;
 
 namespace Curriculo.API
 {
@@ -33,6 +35,24 @@ namespace Curriculo.API
             services.AddScoped<MeuDbContext>();
             services.AddDbContext<MeuDbContext>(opt => opt.UseInMemoryDatabase("test"));
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+
+                {
+                    Title = "Curriculo Api",
+                    Version = "v1",
+                    Description = "A challenge resolution in ASP.NET Core Web API",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Felipe Souza",
+                        Email = "felipe.souz@dcomp.ufs.br",
+                        Url = new Uri("https://github.com/felipe6ouza"),
+                    },
+
+                });
+            });
+
             services.AddAutoMapper(typeof(Startup));
 
             services.AddScoped<IPessoaRepository, PessoaRepository>();
@@ -48,6 +68,12 @@ namespace Curriculo.API
             }
 
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1");
+            });
 
             app.UseRouting();
 

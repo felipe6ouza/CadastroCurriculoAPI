@@ -1,4 +1,5 @@
 using AutoMapper;
+using Curriculo.API.Configurations;
 using Curriculo.Business.Interfaces;
 using Curriculo.Data.Context;
 using Curriculo.Data.Repository;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+
 
 namespace Curriculo.API
 {
@@ -35,6 +37,8 @@ namespace Curriculo.API
             services.AddScoped<MeuDbContext>();
             services.AddDbContext<MeuDbContext>(opt => opt.UseInMemoryDatabase("test"));
 
+            services.AddLoggerConfig();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -56,7 +60,7 @@ namespace Curriculo.API
             services.AddAutoMapper(typeof(Startup));
 
             services.AddScoped<IPessoaRepository, PessoaRepository>();
-           
+
 
         }
 
@@ -79,9 +83,12 @@ namespace Curriculo.API
 
             app.UseAuthorization();
 
+            app.UseLoggingConfiguration();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+
             });
         }
     }

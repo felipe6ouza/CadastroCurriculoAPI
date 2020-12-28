@@ -3,6 +3,7 @@ using Curriculo.API.ViewModels;
 using Curriculo.Business.Interfaces;
 using Curriculo.Business.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,17 +15,24 @@ namespace Curriculo.API.Controllers
     {
         private readonly IPessoaRepository _pessoaRepository;
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
-        public CurriculoController(IPessoaRepository pessoaRepository, IMapper mapper)
+        public CurriculoController(IPessoaRepository pessoaRepository, IMapper mapper, ILogger<CurriculoController> logger)
         {
             _pessoaRepository = pessoaRepository;
             _mapper = mapper;
+            _logger = logger;
             
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PessoaViewModel>>> ObterTodos()
         {
             var listaPessoas = _mapper.Map<IEnumerable<PessoaViewModel>>(await _pessoaRepository.ObterTodos());
+           
+            //Testar Logging Manual para o Elmah.io
+                // _logger.LogWarning("Capture The Warning Log");
+                // _logger.LogCritical("Capture The Critical Log");
+
 
             return Ok(listaPessoas);
         }
